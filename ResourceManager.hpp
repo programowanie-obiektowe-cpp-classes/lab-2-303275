@@ -4,5 +4,39 @@
 
 class ResourceManager
 {
-    // Twoja implementacja tutaj
+public:
+    ResourceManager()
+        : resource()
+    {
+    }
+
+    double get()
+    {
+        return resource.get();
+    }
+
+    ResourceManager(const ResourceManager& other)
+        : resource(other.resource)
+    {
+    }
+
+    ResourceManager& operator=(const ResourceManager& other)
+    {
+        if (this != &other)
+        {
+            resource = other.resource; 
+        }
+        return *this;
+    }
+
+    ResourceManager(ResourceManager&& other) = default; 
+
+    ResourceManager& operator=(ResourceManager&& other) = default; 
+
+    ~ResourceManager()
+    {
+    }
+
+private:
+    Resource resource; 
 };
