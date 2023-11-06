@@ -5,24 +5,54 @@
 class ResourceManager
 {
 public:
-    ResourceManager() : resource() {}
 
-    double get() {
-        return resource.get();
+    ResourceManager()
+    {
+        resource = new Rsc();
     }
 
-    ResourceManager(const ResourceManager& other) : resource(other.resource) {}
+    double get()
+    {
+        return resource->get();
+    }
 
+    ResourceManager(const ResourceManager& other)
+    {
+        resource = new Rsc(*other.resource); 
+    }
 
-    ResourceManager& operator=(const ResourceManager& other) {
-        if (this != &other) {
-            resource = other.resource;
-        }
+    ResourceManager& operator=(ResourceManager&& other) noexcept
+    {
+        delete resource;
+        resource = other.resource;
+        other.resource = nullptr;
         return *this;
     }
 
-    ~ResourceManager() {}
+    ResourceManager& operator=(const ResourceManager& other)
+    {
+        delete resource;
+        resource = new Rsc(*other.resource);
+        return *this;
+    }
+
+    ResourceManager(ResourceManager&& other)
+    {
+        resource = other.resource;
+        other.resource = nullptr;
+    }
+
+    ~ResourceManager()
+    {
+        if(resource != nullptr)
+        {
+            delete resource;
+        }
+    }
+
+    
+
 
 private:
-    Resource resource;
+    Rsc* resource;
 };
